@@ -1,24 +1,16 @@
+from functools import wraps
+import logging
+from typing import Callable, Any
 
-def handle_exception(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except ValueError as e:
-            print(f"ValueError occurred: {e}")
-            return None
-        except TypeError as e:
-            print(f"TypeError occurred: {e}")
-            return None
-        except AttributeError as e:
-            print(f"AttributeError occurred: {e}")
-            return None
-        except KeyError as e:
-            print(f"KeyError occurred: {e}")
-            return None
-        except IndexError as e:
-            print(f"IndexError occurred: {e}")
-            return None
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None
-    return wrapper
+logger = logging.getLogger(__name__)
+def handle_exception(exceptions=(Exception,)):
+    def decorator(func:Callable)-> Callable:
+        @wraps(func)
+        def wrapper(*args:Any, **kwargs:Any)->Any:
+            try:
+                return func(*args, **kwargs)
+            except exceptions as e:
+                logger.error(f"Error in {func.__name__}: {e}", exc_info=True)
+                raise
+        return wrapper
+    return decorator
