@@ -34,30 +34,70 @@ Creare un backend modulare che permetta di:
 
 ```
 Warframe_Build_Assistant/
-├── docs/           → Documentazione tecnica e decisioni progettuali
-├── migrations/     → Versionamento schema DB
-├── scripts/        → Script di supporto e manutenzione
-├── src/            → Codice sorgente
-│   ├── api/        → Endpoint REST
-│   ├── config/     → Configurazione ambiente e variabili
-│   ├── database/   → Connessione e sessione DB
-│   ├── models/     → Modelli SQLAlchemy + schema Pydantic
-│   └── utils/      → Funzioni di utilità
-├── tests/          → Test unitari e d'integrazione
-├── pyproject.toml  → Configurazione uv + dipendenze
-└── uv.lock         → Lock delle versioni
+├── docs/                    → Documentazione tecnica e decisioni progettuali
+│   ├── learning/           → Materiale di studio e correzioni (gitignored)
+│   │   ├── issues/         → Fix per problemi specifici
+│   │   └── study/          → Tutorial e best practices
+│   ├── design_database.md  → Design del database
+│   └── entity_relations.*  → Relazioni tra entità
+├── migrations/             → Versionamento schema DB (Alembic)
+├── scripts/                → Script di supporto e manutenzione
+├── src/                    → Codice sorgente
+│   ├── api/                → Endpoint REST
+│   ├── config/             → Configurazione ambiente e variabili
+│   ├── database/           → Connessione e sessione DB + modelli
+│   │   ├── models/         → Modelli SQLAlchemy (Warframe, Armi, Mod, ecc.)
+│   │   └── docker/         → Configurazione Docker per MySQL
+│   ├── decorators/         → Decoratori per logging ed exception handling ✅
+│   ├── models/             → Schema Pydantic (futuro)
+│   └── utils/              → Funzioni di utilità
+├── tests/                  → Test unitari e d'integrazione
+├── pyproject.toml          → Configurazione uv + dipendenze
+└── uv.lock                 → Lock delle versioni
 ```
 
 ## 🗺️ Roadmap
 
-1. **Definizione dominio** → Comprendere entità, relazioni e scopo
-2. **Progettazione modello dati** → Definire Warframe, Mod, Build ecc.
-3. **Connessione al DB MySQL** → Creare e migrare lo schema base
-4. **Implementazione autenticazione base** → JWT minimale per API locali
-5. **Creazione API CRUD** → Per le entità principali
-6. **Testing + documentazione API**
-7. **(Futuro)** Aggiornamento automatico dei dati di gioco
-8. **(Futuro)** Modulo AI per suggerimenti e ottimizzazioni
+### ✅ Completato
+1. **Definizione dominio** → Entità e relazioni definite
+2. **Progettazione modello dati** → Modelli SQLAlchemy creati per tutte le entità
+3. **Setup database** → Alembic configurato, migrazioni create
+4. **Decoratori base** → Sistema di logging ed exception handling funzionante
+
+### 🔄 In Corso
+5. **Connessione al DB MySQL** → Schema creato, connessione da testare
+6. **Popolamento dati iniziali** → Script per importare dati base
+
+### 📋 Prossimi Step
+7. **API CRUD base** → Endpoint per Warframe, Armi, Mod
+8. **Implementazione autenticazione** → JWT per API
+9. **Testing + documentazione API**
+10. **Frontend base** → Interfaccia per testare le API
+
+### 🚀 Futuro
+11. **Aggiornamento automatico dati** → Sync con API esterne
+12. **Modulo AI** → Suggerimenti build ottimali
+
+## 📊 Stato Attuale
+
+**Versione**: 0.2.0 (Database Design + Decoratori)
+
+### 🎯 Componenti Funzionanti
+- ✅ **Database Models**: Tutti i modelli SQLAlchemy definiti
+- ✅ **Migrazioni**: Sistema Alembic configurato
+- ✅ **Decoratori**: Logging ed exception handling production-ready
+- ✅ **Documentazione**: Design database e materiale di studio
+
+### 🔧 Componenti in Sviluppo
+- 🔄 **Connessione DB**: MySQL setup da testare
+- 🔄 **Data Population**: Script di import dati
+
+### 📋 Prossimi Obiettivi
+- **API Layer**: Creare endpoint REST base
+- **Testing**: Setup pytest e test automatizzati
+- **Data Validation**: Schema Pydantic per input/output
+
+---
 
 ## 💡 Filosofia di Sviluppo
 
@@ -65,6 +105,7 @@ Procedere per micro-step, senza saltare fasi:
 - Ogni passaggio deve essere compreso e giustificato
 - Niente copia-incolla cieco
 - Ogni blocco del sistema deve avere una ragione d'esistere, documentata in `docs/`
+- Materiale di studio separato dal codice di progetto (`docs/learning/`)
 
 ## 🚀 Setup
 
@@ -82,6 +123,49 @@ uv venv
 # Installa le dipendenze
 uv pip install -e .
 ```
+
+## 🔧 Componenti Tecnici
+
+### Database Models ✅
+- **Warframe**: Statistiche base, polarità, abilità
+- **Armi**: Primary, Secondary, Melee con statistiche specifiche
+- **Mod**: Effetti, polarità, requisiti
+- **Build**: Configurazioni personalizzate
+- **Companion**: Pet e Sentinel con abilità
+
+### Decoratori ✅
+```python
+# Exception handling con logging
+@handle_exception(exceptions=(ValueError, TypeError))
+def risky_function():
+    pass
+
+# Logging automatico
+@handle_logger
+def tracked_function():
+    pass
+```
+
+### Database Setup ✅
+```bash
+# Creare migrazione
+alembic revision --autogenerate -m "descrizione"
+
+# Applicare migrazioni
+alembic upgrade head
+```
+
+---
+
+## 📚 Documentazione
+
+- `docs/design_database.md` - Design e decisioni database
+- `docs/entity_relations.md` - Relazioni tra entità
+- `docs/learning/` - Materiale di studio (gitignored)
+  - `study/decorators/` - Tutorial e best practices
+  - `issues/decorators/` - Fix e correzioni
+
+---
 
 ## 📝 Licenza
 
