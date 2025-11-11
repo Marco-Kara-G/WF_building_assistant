@@ -1,172 +1,242 @@
 # 🧠 Warframe Build Assistant
 
-Un assistente backend modulare per la creazione e gestione di build personalizzate per Warframe.
+Backend modulare per la creazione e gestione di build personalizzate per Warframe.
 
-## 📋 Scopo del Progetto
-
-Creare un backend modulare che permetta di:
-- Consultare, salvare e combinare dati di gioco (Warframe, armi, mod, companion)
-- Creare build personalizzate
-- Integrare in futuro un'IA di supporto per suggerimenti di build ottimali basati su dati aggiornati
-
-## 🎯 Obiettivi Iniziali
-
-- Gestire dati statici del gioco (importati da API esterne o dataset locali)
-- Implementare operazioni CRUD su:
-  - Warframe
-  - Armi
-  - Mod
-  - Build
-- Implementare una base solida: autenticazione, DB coerente, API ben strutturate
-- Preparare un'architettura scalabile per il futuro (microservizi, IA, aggiornamenti automatici)
-
-## 🛠️ Stack Tecnologico
-
-- **Python** - Linguaggio base
-- **uv** - Package manager e ambiente virtuale
-- **FastAPI** - API REST (in futuro)
-- **SQLAlchemy + Pydantic** - Gestione dati e validazione
-- **MySQL** - Database principale
-- **Docker** - Orchestrazione e riproducibilità (più avanti)
-- **pytest** - Test automatizzati
-
-## 📁 Struttura del Progetto
-
-```
-Warframe_Build_Assistant/
-├── docs/                    → Documentazione tecnica e decisioni progettuali
-│   ├── learning/           → Materiale di studio e correzioni (gitignored)
-│   │   ├── issues/         → Fix per problemi specifici
-│   │   └── study/          → Tutorial e best practices
-│   ├── design_database.md  → Design del database
-│   └── entity_relations.*  → Relazioni tra entità
-├── migrations/             → Versionamento schema DB (Alembic)
-├── scripts/                → Script di supporto e manutenzione
-├── src/                    → Codice sorgente
-│   ├── api/                → Endpoint REST
-│   ├── config/             → Configurazione ambiente e variabili
-│   ├── database/           → Connessione e sessione DB + modelli
-│   │   ├── models/         → Modelli SQLAlchemy (Warframe, Armi, Mod, ecc.)
-│   │   └── docker/         → Configurazione Docker per MySQL
-│   ├── decorators/         → Decoratori per logging ed exception handling ✅
-│   ├── models/             → Schema Pydantic (futuro)
-│   └── utils/              → Funzioni di utilità
-├── tests/                  → Test unitari e d'integrazione
-├── pyproject.toml          → Configurazione uv + dipendenze
-└── uv.lock                 → Lock delle versioni
-```
-
-## 🗺️ Roadmap
-
-### ✅ Completato
-1. **Definizione dominio** → Entità e relazioni definite
-2. **Progettazione modello dati** → Modelli SQLAlchemy creati per tutte le entità
-3. **Setup database** → Alembic configurato, migrazioni create
-4. **Decoratori base** → Sistema di logging ed exception handling funzionante
-
-### 🔄 In Corso
-5. **Connessione al DB MySQL** → Schema creato, connessione da testare
-6. **Popolamento dati iniziali** → Script per importare dati base
-
-### 📋 Prossimi Step
-7. **API CRUD base** → Endpoint per Warframe, Armi, Mod
-8. **Implementazione autenticazione** → JWT per API
-9. **Testing + documentazione API**
-10. **Frontend base** → Interfaccia per testare le API
-
-### 🚀 Futuro
-11. **Aggiornamento automatico dati** → Sync con API esterne
-12. **Modulo AI** → Suggerimenti build ottimali
-
-## 📊 Stato Attuale
-
-**Versione**: 0.2.0 (Database Design + Decoratori)
-
-### 🎯 Componenti Funzionanti
-- ✅ **Database Models**: Tutti i modelli SQLAlchemy definiti
-- ✅ **Migrazioni**: Sistema Alembic configurato
-- ✅ **Decoratori**: Logging ed exception handling production-ready
-- ✅ **Documentazione**: Design database e materiale di studio
-
-### 🔧 Componenti in Sviluppo
-- 🔄 **Connessione DB**: MySQL setup da testare
-- 🔄 **Data Population**: Script di import dati
-
-### 📋 Prossimi Obiettivi
-- **API Layer**: Creare endpoint REST base
-- **Testing**: Setup pytest e test automatizzati
-- **Data Validation**: Schema Pydantic per input/output
+**Version**: 0.3.0  
+**Status**: In Development  
+**Python**: 3.13+
 
 ---
 
-## 💡 Filosofia di Sviluppo
+## 📋 Quick Links
 
-Procedere per micro-step, senza saltare fasi:
-- Ogni passaggio deve essere compreso e giustificato
-- Niente copia-incolla cieco
-- Ogni blocco del sistema deve avere una ragione d'esistere, documentata in `docs/`
-- Materiale di studio separato dal codice di progetto (`docs/learning/`)
+- **[📚 Full Documentation](docs/README.md)** - Complete documentation library
+- **[🏗️ Architecture](docs/01_ARCHITECTURE.md)** - System design and flows
+- **[💾 Database](docs/01_database/)** - Database schema and design
+- **[🔧 Technology Stack](docs/02_TECHNOLOGY_STACK.md)** - Technologies used
 
-## 🚀 Setup
+---
+
+## 🎯 Project Purpose
+
+Sistema backend completo per:
+- Gestione dati di gioco (Warframe, Armi, Mod, Companion)
+- Operazioni CRUD complete
+- API REST per integrazione frontend
+- Sistema di gestione build personalizzate
+
+---
+
+## 🛠️ Technology Stack
+
+- **Python 3.13+** - Core language
+- **FastAPI** - REST API framework
+- **SQLAlchemy 2.0** - ORM
+- **Pydantic 2.0** - Data validation
+- **MySQL 8.0** - Database
+- **Alembic** - Migrations
+- **uv** - Package manager
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.13+
+- MySQL 8.0
+- uv package manager
+
+### Installation
 
 ```bash
-# Clona il repository
+# Clone repository
 git clone https://github.com/Marco-Kara-G/WF_building_assistant.git
 cd WF_building_assistant
 
-# Crea ambiente virtuale con uv
+# Create virtual environment
 uv venv
 
-# Attiva l'ambiente virtuale
+# Activate environment
 .venv\Scripts\activate  # Windows
+source .venv/bin/activate  # Linux/Mac
 
-# Installa le dipendenze
+# Install dependencies
 uv pip install -e .
 ```
 
-## 🔧 Componenti Tecnici
+### Database Setup
 
-### Database Models ✅
-- **Warframe**: Statistiche base, polarità, abilità
-- **Armi**: Primary, Secondary, Melee con statistiche specifiche
-- **Mod**: Effetti, polarità, requisiti
-- **Build**: Configurazioni personalizzate
-- **Companion**: Pet e Sentinel con abilità
-
-### Decoratori ✅
-```python
-# Exception handling con logging
-@handle_exception(exceptions=(ValueError, TypeError))
-def risky_function():
-    pass
-
-# Logging automatico
-@handle_logger
-def tracked_function():
-    pass
-```
-
-### Database Setup ✅
 ```bash
-# Creare migrazione
-alembic revision --autogenerate -m "descrizione"
+# Configure .env file
+cp .env.example .env
+# Edit .env with your MySQL credentials
 
-# Applicare migrazioni
+# Run migrations
 alembic upgrade head
 ```
 
----
+### Load Initial Data
 
-## 📚 Documentazione
-
-- `docs/design_database.md` - Design e decisioni database
-- `docs/entity_relations.md` - Relazioni tra entità
-- `docs/learning/` - Materiale di studio (gitignored)
-  - `study/decorators/` - Tutorial e best practices
-  - `issues/decorators/` - Fix e correzioni
+```bash
+# Load warframes data
+python scripts/load_warframes.py
+```
 
 ---
 
-## 📝 Licenza
+## 📁 Project Structure
 
-TBD 
+```
+Warframe_Build_Assistant/
+├── docs/                       # 📚 Documentation library
+│   ├── 00_PROJECT_OVERVIEW.md
+│   ├── 01_ARCHITECTURE.md
+│   ├── 02_TECHNOLOGY_STACK.md
+│   ├── 01_database/
+│   └── 02_modules/
+├── migrations/                 # Database migrations
+├── scripts/                    # Utility scripts
+├── src/                        # Source code
+│   ├── api/                    # REST API endpoints
+│   ├── database/               # Database layer
+│   │   ├── models/             # SQLAlchemy models
+│   │   ├── dao/                # Data Access Objects
+│   │   ├── db_config/          # DB configuration
+│   │   └── db_connection/      # Connection management
+│   ├── dto/                    # Data Transfer Objects
+│   ├── services/               # Business logic
+│   ├── decorators/             # Utility decorators
+│   └── utils/                  # Utility functions
+├── tests/                      # Test suite
+├── .env                        # Environment variables
+├── pyproject.toml              # Project configuration
+└── README.md                   # This file
+```
+
+---
+
+## 📊 Current Status
+
+### ✅ Completed
+- Database models (12 entities)
+- Database migrations (Alembic)
+- DTOs (8 entities)
+- Decorators (logging, exceptions)
+- DB configuration
+- DB connection management
+
+### 🔄 In Progress
+- DAO layer
+- Service layer
+- Data loading scripts
+
+### 📋 Planned
+- REST API endpoints
+- Build management system
+- Testing suite
+- Docker deployment
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+External API → DTO → Service → DAO → Database
+                                      ↓
+                              REST API ← Client
+```
+
+**Layered Architecture** with clear separation:
+- **Application Layer**: Scripts, REST API
+- **Business Logic**: Services
+- **Data Access**: DTOs, DAOs
+- **Database**: SQLAlchemy Models, MySQL
+
+**[Full Architecture Documentation](docs/01_ARCHITECTURE.md)**
+
+---
+
+## 💾 Database Entities
+
+- **Warframe** - 14 fields
+- **Primary/Secondary/Melee Weapons** - 24-30 fields
+- **Mod** - 12 fields
+- **Companion** - 9 fields
+- **Ability** - 7 fields (linked to Warframe)
+- **Build** - 11 fields (links all entities)
+
+**[Database Design](docs/01_database/design_database.md)**
+
+---
+
+## 🔧 Development
+
+### Run Migrations
+
+```bash
+# Create new migration
+alembic revision --autogenerate -m "description"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback
+alembic downgrade -1
+```
+
+### Load Data
+
+```bash
+# Load specific entity
+python scripts/load_warframes.py
+
+# Load all data (future)
+python scripts/load_all.py
+```
+
+### Run API Server (Future)
+
+```bash
+uvicorn src.api.main:app --reload
+```
+
+---
+
+## 📚 Documentation
+
+Complete documentation available in [`docs/`](docs/):
+
+- **[Project Overview](docs/00_PROJECT_OVERVIEW.md)** - Purpose, status, roadmap
+- **[Architecture](docs/01_ARCHITECTURE.md)** - System design, flows, patterns
+- **[Technology Stack](docs/02_TECHNOLOGY_STACK.md)** - Technologies and tools
+- **[Database](docs/01_database/)** - Schema, models, relationships
+- **[Modules](docs/02_modules/)** - Module-specific documentation
+
+---
+
+## 🤝 Contributing
+
+1. Read [Architecture Documentation](docs/01_ARCHITECTURE.md)
+2. Follow existing patterns (Layered Architecture)
+3. Use decorators for logging/error handling
+4. Validate input with Pydantic
+5. Write tests for new features
+6. Update documentation
+
+---
+
+## 📝 License
+
+TBD
+
+---
+
+## 🔗 Links
+
+- **Documentation**: [`docs/`](docs/)
+- **Issues**: [GitHub Issues]
+- **Repository**: [GitHub]
+
+---
+
+**For detailed information, see the [complete documentation](docs/README.md).**
